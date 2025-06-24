@@ -5,11 +5,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Data
-@Table(name = "books")
+@Table(name = "authors")
 public class Author {
-
     @Id
     private Long id;
-
     private String name;
 }
