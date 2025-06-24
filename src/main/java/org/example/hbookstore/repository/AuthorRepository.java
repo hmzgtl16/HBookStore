@@ -1,4 +1,7 @@
 package org.example.hbookstore.repository;
 
-public interface AuthorRepository {
+import org.example.hbookstore.model.Author;
+import org.springframework.data.repository.CrudRepository;
+
+public interface AuthorRepository extends CrudRepository<Author, Long> {
 }
