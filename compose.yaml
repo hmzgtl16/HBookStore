@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:13.21'
+    environment:
+      - 'POSTGRES_DB=hbookstore_db'
+      - 'POSTGRES_PASSWORD=hbookstore_password'
+      - 'POSTGRES_USER=hbookstore_user'
+    ports:
+      - '5432'
