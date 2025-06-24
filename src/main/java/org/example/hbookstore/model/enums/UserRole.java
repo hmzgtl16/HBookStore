@@ -1,6 +1,6 @@
 package org.example.hbookstore.model.enums;
 
-enum UserRole {
+public enum UserRole {
     USER,
     ADMIN
 }
