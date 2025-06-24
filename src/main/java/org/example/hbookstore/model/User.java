@@ -1,6 +1,8 @@
 package org.example.hbookstore.model;
 
 import lombok.Data;
+import org.example.hbookstore.model.enums.UserRole;
+import org.example.hbookstore.model.enums.UserStatus;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -17,16 +19,6 @@ public class User {
     private UserStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-}
-
-enum UserRole {
-    USER,
-    ADMIN
-}
-
-enum UserStatus {
-    ACTIVE,
-    INACTIVE
 }
 
 
