@@ -25,16 +25,19 @@ public class AuthorServiceImpl implements AuthorService {
         this.authorMapper = authorMapper;
     }
 
-    @Override
     @Transactional
+    @Override
     public AuthorResponse createAuthor(CreateAuthorRequest request) {
         Author author = authorMapper.toEntity(request);
         return authorMapper.toResponse(authorRepository.save(author));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public AuthorResponse getAuthor(Long id) {
-        return null;
+        return authorRepository.findById(id)
+                .map(authorMapper::toResponse)
+                .orElseThrow(); // Consider throwing an exception instead of returning null
     }
 
     @Override
