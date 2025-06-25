@@ -15,5 +15,4 @@ public interface AuthorService {
     Page<AuthorResponse> getAllAuthors(Pageable pageable);
     Page<AuthorResponse> getAuthorsByNationality(String nationality, Pageable pageable);
     Page<AuthorResponse> searchAuthors(String query, Pageable pageable);
-
 }

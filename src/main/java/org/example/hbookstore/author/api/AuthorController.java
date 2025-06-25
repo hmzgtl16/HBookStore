@@ -56,21 +56,21 @@ public class AuthorController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping("/nationality/{nationality}")
+    public ResponseEntity<Page<AuthorResponse>> getAuthorsByNationality(
+            @PathVariable String nationality,
+            @PageableDefault(size = 20) Pageable pageable
+    ) {
+        Page<AuthorResponse> response = authorService.getAuthorsByNationality(nationality, pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @GetMapping("/search")
     public ResponseEntity<Page<AuthorResponse>> searchAuthors(
             @RequestParam String query,
             @PageableDefault(size = 20) Pageable pageable
     ) {
         Page<AuthorResponse> response = authorService.searchAuthors(query, pageable);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    @GetMapping("/national/{nationality}")
-    public ResponseEntity<Page<AuthorResponse>> getAuthorsByNationality(
-            @PathVariable String nationality,
-            @PageableDefault(size = 20) Pageable pageable
-    ) {
-        Page<AuthorResponse> response = authorService.getAuthorsByNationality(nationality, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

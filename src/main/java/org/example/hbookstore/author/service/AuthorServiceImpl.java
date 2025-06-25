@@ -37,7 +37,7 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorResponse getAuthor(Long id) {
         return authorRepository.findById(id)
                 .map(authorMapper::toResponse)
-                .orElseThrow(); // Consider throwing an exception instead of returning null
+                    .orElseThrow(); // Consider throwing an exception instead of returning null
     }
 
     @Transactional

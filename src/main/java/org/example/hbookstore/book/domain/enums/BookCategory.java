@@ -1,4 +1,4 @@
-package org.example.hbookstore.model.enums;
+package org.example.hbookstore.book.domain.enums;
 
 public enum BookCategory {
     FICTION,
