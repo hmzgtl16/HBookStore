@@ -1,5 +1,8 @@
-package org.example.hbookstore.author.api.dto;
+package org.example.hbookstore.author.api;
 
+import org.example.hbookstore.author.api.dto.AuthorResponse;
+import org.example.hbookstore.author.api.dto.CreateAuthorRequest;
+import org.example.hbookstore.author.api.dto.UpdateAuthorRequest;
 import org.example.hbookstore.author.service.AuthorService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
