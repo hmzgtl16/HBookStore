@@ -8,5 +8,5 @@ public interface AuthorService {
     AuthorResponse createAuthor(CreateAuthorRequest request);
     AuthorResponse getAuthor(Long id);
     AuthorResponse updateAuthor(Long id, UpdateAuthorRequest request);
-    void deleteAuthor(Long id);
+    void deleteAuthor(Long id) throws Exception;
 }

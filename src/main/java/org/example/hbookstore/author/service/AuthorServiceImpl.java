@@ -40,13 +40,22 @@ public class AuthorServiceImpl implements AuthorService {
                 .orElseThrow(); // Consider throwing an exception instead of returning null
     }
 
+    @Transactional
     @Override
     public AuthorResponse updateAuthor(Long id, UpdateAuthorRequest request) {
-        return null;
+        Author author = authorRepository.findById(id)
+                .orElseThrow(); // Handle not found case
+
+        Author updatedAuthor = authorMapper.updateEntity(author, request);
+        return authorMapper.toResponse(authorRepository.save(updatedAuthor));
     }
 
+    @Transactional
     @Override
-    public void deleteAuthor(Long id) {
-
+    public void deleteAuthor(Long id) throws Exception {
+        if (!authorRepository.existsById(id)) {
+            throw new Exception("Author not found with id: $id");
+        }
+        authorRepository.deleteById(id);
     }
 }
