@@ -1,4 +1,4 @@
-package org.example.hbookstore.model.enums;
+package org.example.hbookstore.user.domain.enums;
 
 public enum UserStatus {
     ACTIVE,
