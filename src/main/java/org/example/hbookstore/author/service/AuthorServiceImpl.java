@@ -6,7 +6,8 @@ import org.example.hbookstore.author.api.dto.UpdateAuthorRequest;
 import org.example.hbookstore.author.domain.Author;
 import org.example.hbookstore.author.domain.AuthorRepository;
 import org.example.hbookstore.author.mapping.AuthorMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,6 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
 
-    @Autowired
     public AuthorServiceImpl(
             AuthorRepository authorRepository,
             AuthorMapper authorMapper
@@ -57,5 +57,27 @@ public class AuthorServiceImpl implements AuthorService {
             throw new Exception("Author not found with id: $id");
         }
         authorRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<AuthorResponse> getAllAuthors(Pageable pageable) {
+        return authorRepository.findAll(pageable)
+                .map(authorMapper::toResponse);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<AuthorResponse> getAuthorsByNationality(String nationality, Pageable pageable) {
+        return authorRepository.findByNationality(nationality, pageable)
+                .map(authorMapper::toResponse);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<AuthorResponse> searchAuthors(String query, Pageable pageable) {
+        return authorRepository
+                .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(query, query, pageable)
+                .map(authorMapper::toResponse);
     }
 }
