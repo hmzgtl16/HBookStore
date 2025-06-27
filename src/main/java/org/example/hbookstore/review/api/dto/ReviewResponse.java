@@ -7,7 +7,7 @@ import java.time.Instant;
  */
 public record ReviewResponse(
         Long id,
-        Long userId,
+        Long customerId,
         Long bookId,
         int rating,
         String comment,

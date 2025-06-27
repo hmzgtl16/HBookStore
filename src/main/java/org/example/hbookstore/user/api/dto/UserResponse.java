@@ -8,7 +8,6 @@ import org.example.hbookstore.user.domain.enums.UserStatus;
  */
 public record UserResponse(
         Long id,
-        String email,
         String username,
         UserRole role,
         UserStatus status,

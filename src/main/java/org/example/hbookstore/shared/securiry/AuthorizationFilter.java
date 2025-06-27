@@ -1,6 +1,7 @@
 package org.example.hbookstore.shared.securiry;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,9 +33,9 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
+            @Nonnull HttpServletRequest request,
+            @Nonnull HttpServletResponse response,
+            @Nonnull FilterChain filterChain
     ) throws ServletException, IOException {
 
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);

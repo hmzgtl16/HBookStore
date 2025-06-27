@@ -8,17 +8,15 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface UserService {
-    UserResponse createUser(CreateUserRequest request) throws Exception;
+    UserResponse createUser(CreateUserRequest request);
 
     UserResponse getUser(Long id);
 
-    UserResponse updateUser(Long id, UpdateUserRequest request) throws Exception;
+    UserResponse updateUser(Long id, UpdateUserRequest request);
 
-    void deleteUser(Long id) throws Exception;
+    void deleteUser(Long id);
 
     Page<UserResponse> getAllUsers(Pageable pageable);
-
-    UserResponse getUserByEmail(String email);
 
     UserResponse getUserByUsername(String username);
 }

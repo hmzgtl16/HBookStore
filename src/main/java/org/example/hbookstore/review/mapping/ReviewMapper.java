@@ -14,8 +14,8 @@ public class ReviewMapper {
     public Review toEntity(CreateReviewRequest request) {
         return new Review(
                 null, // ID will be set by the repository
+                request.customerId(),
                 request.bookId(),
-                request.userId(),
                 request.rating(),
                 request.comment(),
                 Instant.now(),
@@ -37,8 +37,8 @@ public class ReviewMapper {
     public ReviewResponse toResponse(Review review) {
         return new ReviewResponse(
                 review.getId(),
+                review.getCustomerId(),
                 review.getBookId(),
-                review.getUserId(),
                 review.getRating(),
                 review.getComment(),
                 review.getCreatedAt(),

@@ -13,5 +13,5 @@ public interface ReviewService {
     void deleteReview(Long id);
     Page<ReviewResponse> getAllReviews(Pageable pageable);
     Page<ReviewResponse> getReviewsByBookId(Long bookId, Pageable pageable);
-    Page<ReviewResponse> getReviewsByUserId(Long userId, Pageable pageable);
+    Page<ReviewResponse> getReviewsByCustomerId(Long userId, Pageable pageable);
 }

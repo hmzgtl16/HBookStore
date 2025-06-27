@@ -55,11 +55,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
 
-        if (request.email() != null && !request.email().equals(user.getEmail())) {
-            throw new InvalidRequestException("Email already exists: " + request.email());
-        }
-
         User updatedUser = userMapper.updateEntity(user, request);
+        if (request.password() != null) {
+            updatedUser.setPassword(passwordEncoder.encode(request.password()));
+        }
         return userMapper.toResponse(userRepository.save(updatedUser));
     }
 
@@ -78,13 +77,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(pageable)
                 .map(userMapper::toResponse);
     }
-    @Transactional(readOnly = true)
-    @Override
-    public UserResponse getUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .map(userMapper::toResponse)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + email));
-    }
 
     @Transactional(readOnly = true)
     @Override
@@ -95,9 +87,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private void validateNewUser(CreateUserRequest request) {
-        if (!userRepository.existsByEmail(request.email())) {
-            throw new InvalidRequestException("Email already exists: " + request.email());
-        }
         if (!userRepository.existsByUsername(request.username())) {
             throw new InvalidRequestException("Username already exists: " + request.username());
         }

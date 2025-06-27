@@ -43,15 +43,30 @@ public class SecurityConfig {
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/v1/auth/**").permitAll()
+
                         .requestMatchers("/api/v1/users").hasRole("ADMIN")
                         .requestMatchers("/api/v1/users/**").hasRole("ADMIN")
+
                         .requestMatchers(HttpMethod.POST, "/api/v1/books").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/v1/books").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/v1/books/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/authors").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/books/**").hasAnyRole("USER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/v1/authors").hasRole( "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/v1/authors").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/v1/authors").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/v1/authors/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/authors/**").hasAnyRole("USER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/v1/reviews").hasRole( "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/reviews").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/v1/reviews/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/v1/customers").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/customers").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/v1/customers/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/customers/**").hasAnyRole("USER", "ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

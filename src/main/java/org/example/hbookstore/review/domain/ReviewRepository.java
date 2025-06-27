@@ -4,11 +4,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ReviewRepository extends CrudRepository<Review, Long>, PagingAndSortingRepository<Review, Long> {
 
     Page<Review> findByBookId(Long bookId, Pageable pageable);
-    Page<Review> findByUserId(Long userId, Pageable pageable);
+    Page<Review> findByCustomerId(Long customerId, Pageable pageable);
 
-    boolean existsByUserIdAndBookId(Long userId, Long bookId);
+    boolean existsByCustomerIdAndBookId(Long userId, Long bookId);
 }

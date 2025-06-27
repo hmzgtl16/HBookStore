@@ -86,20 +86,20 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<ReviewResponse> getReviewsByUserId(Long userId, Pageable pageable) {
-        return reviewRepository.findByUserId(userId, pageable)
+    public Page<ReviewResponse> getReviewsByCustomerId(Long customerId, Pageable pageable) {
+        return reviewRepository.findByCustomerId(customerId, pageable)
                 .map(reviewMapper::toResponse);
     }
 
     private void validateReview(CreateReviewRequest request) {
-        if (reviewRepository.existsByUserIdAndBookId(request.userId(),  request.bookId())) {
-            throw new InvalidRequestException("Review already exists: " + request.userId() + ", " + request.bookId());
+        if (reviewRepository.existsByCustomerIdAndBookId(request.customerId(),  request.bookId())) {
+            throw new InvalidRequestException("Review already exists: " + request.customerId() + ", " + request.bookId());
         }
         if (!bookRepository.existsById(request.bookId())) {
             throw new EntityNotFoundException("Book not found with id: " + request.bookId());
         }
-        if (!userRepository.existsById(request.userId())) {
-            throw new EntityNotFoundException("User not found with id: " + request.userId());
+        if (!userRepository.existsById(request.customerId())) {
+            throw new EntityNotFoundException("User not found with id: " + request.customerId());
         }
     }
 }

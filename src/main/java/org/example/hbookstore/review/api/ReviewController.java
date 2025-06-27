@@ -70,7 +70,7 @@ public class ReviewController {
             @PathVariable Long userId,
             @PageableDefault(size = 20) Pageable pageable
     ) {
-        Page<ReviewResponse> reviews = reviewService.getReviewsByUserId(userId, pageable);
+        Page<ReviewResponse> reviews = reviewService.getReviewsByCustomerId(userId, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(reviews);
     }
 }

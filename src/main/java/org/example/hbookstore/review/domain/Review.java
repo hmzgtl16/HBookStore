@@ -13,7 +13,7 @@ import java.time.Instant;
 public class Review {
     @Id
     private Long id;
-    private Long userId;
+    private Long customerId;
     private Long bookId;
     private int rating;
     private String comment;

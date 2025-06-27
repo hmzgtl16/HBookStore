@@ -22,7 +22,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(CreateUserRequest request) throws Exception {
+    public ResponseEntity<UserResponse> createUser(
+            @RequestBody CreateUserRequest request
+    ) {
         UserResponse response = userService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -37,13 +39,13 @@ public class UserController {
     public ResponseEntity<UserResponse> updateUser(
             @PathVariable Long id,
             @RequestBody UpdateUserRequest request
-    ) throws Exception {
+    ) {
         UserResponse response = userService.updateUser(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) throws Exception {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -53,12 +55,6 @@ public class UserController {
             @PageableDefault(size = 20) Pageable pageable
     ) {
         Page<UserResponse> response = userService.getAllUsers(pageable);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    @GetMapping("/email/{email}")
-    public ResponseEntity<UserResponse> getUserByEmail(@PathVariable String email) {
-        UserResponse response = userService.getUserByEmail(email);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
