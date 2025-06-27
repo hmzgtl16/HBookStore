@@ -8,6 +8,8 @@ import org.example.hbookstore.book.domain.BookRepository;
 import org.example.hbookstore.book.domain.enums.BookCategory;
 import org.example.hbookstore.book.domain.enums.BookFormat;
 import org.example.hbookstore.book.mapping.BookMapper;
+import org.example.hbookstore.shared.error.EntityNotFoundException;
+import org.example.hbookstore.shared.error.InvalidRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,14 +41,18 @@ public class BookServiceImpl implements BookService {
     public BookResponse getBook(Long id) {
         return bookRepository.findById(id)
                 .map(bookMapper::toResponse)
-                .orElseThrow();  // Consider throwing an exception instead of returning null
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
     }
 
     @Transactional
     @Override
     public BookResponse updateBook(Long id, UpdateBookRequest request) {
         Book book = bookRepository.findById(id)
-                .orElseThrow();  // Handle not found case
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
+
+        if (bookRepository.existsByIsbn(request.isbn())) {
+            throw new InvalidRequestException("ISBN already exists: " + request.isbn());
+        }
 
         Book updatedBook = bookMapper.updateEntity(book, request);
         return bookMapper.toResponse(bookRepository.save(updatedBook));
@@ -54,9 +60,9 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public void deleteBook(Long id) throws Exception {
+    public void deleteBook(Long id) {
         if (!bookRepository.existsById(id)) {
-            throw new Exception("Book not found with id: " + id);
+            throw new EntityNotFoundException("Book not found with id: " + id);
         }
         bookRepository.deleteById(id);
     }

@@ -7,7 +7,7 @@ import org.example.hbookstore.user.domain.User;
 import org.example.hbookstore.user.domain.enums.UserStatus;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Component
 public class UserMapper {
@@ -20,8 +20,8 @@ public class UserMapper {
                 "", // Will be set by service
                 request.role(),
                 UserStatus.ACTIVE,
-                LocalDateTime.now(),
-                LocalDateTime.now()
+                Instant.now(),
+                Instant.now()
         );
     }
 
@@ -38,7 +38,7 @@ public class UserMapper {
         if (request.status() != null) {
             user.setStatus(request.status());
         }
-        user.setUpdatedAt(LocalDateTime.now());
+        user.setUpdatedAt(Instant.now());
         return user;
     }
 

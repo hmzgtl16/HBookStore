@@ -4,7 +4,6 @@ import org.example.hbookstore.book.domain.enums.BookCategory;
 import org.example.hbookstore.book.domain.enums.BookFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public record BookResponse(
         Long id,
@@ -17,8 +16,8 @@ public record BookResponse(
         BookFormat format,
         BookCategory category,
         String coverImageUrl,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt,
+        java.time.Instant createdAt,
+        java.time.Instant updatedAt,
         Long authorId
 ) {
 }

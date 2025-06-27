@@ -1,5 +1,7 @@
 package org.example.hbookstore.user.service;
 
+import org.example.hbookstore.shared.error.EntityNotFoundException;
+import org.example.hbookstore.shared.error.InvalidRequestException;
 import org.example.hbookstore.user.api.dto.CreateUserRequest;
 import org.example.hbookstore.user.api.dto.UpdateUserRequest;
 import org.example.hbookstore.user.api.dto.UserResponse;
@@ -31,10 +33,11 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public UserResponse createUser(CreateUserRequest request) throws Exception {
+    public UserResponse createUser(CreateUserRequest request) {
         validateNewUser(request);
 
         User user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userMapper.toResponse(userRepository.save(user));
     }
 
@@ -46,52 +49,57 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow();
     }
 
+    @Transactional
     @Override
-    public UserResponse updateUser(Long id, UpdateUserRequest request) throws Exception {
+    public UserResponse updateUser(Long id, UpdateUserRequest request) {
         User user = userRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+
         if (request.email() != null && !request.email().equals(user.getEmail())) {
-            throw new Exception("Email already exists");
+            throw new InvalidRequestException("Email already exists: " + request.email());
         }
 
         User updatedUser = userMapper.updateEntity(user, request);
         return userMapper.toResponse(userRepository.save(updatedUser));
     }
 
+    @Transactional
     @Override
-    public void deleteUser(Long id) throws Exception {
+    public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new Exception("User not found");
+            throw new EntityNotFoundException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<UserResponse> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable)
                 .map(userMapper::toResponse);
     }
-
+    @Transactional(readOnly = true)
     @Override
     public UserResponse getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .map(userMapper::toResponse)
-                .orElseThrow();
+                .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + email));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserResponse getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .map(userMapper::toResponse)
-                .orElseThrow();
+                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
     }
 
-    private void validateNewUser(CreateUserRequest request) throws Exception {
+    private void validateNewUser(CreateUserRequest request) {
         if (!userRepository.existsByEmail(request.email())) {
-            throw new Exception("Email already exists");
+            throw new InvalidRequestException("Email already exists: " + request.email());
         }
         if (!userRepository.existsByUsername(request.username())) {
-            throw new Exception("Username already exists");
+            throw new InvalidRequestException("Username already exists: " + request.username());
         }
     }
 }

@@ -29,9 +29,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                                 user.getUsername(),
                                 user.getPassword(),
                                 user.getStatus().equals(UserStatus.ACTIVE),
-                                true, // account is not expired
+                                true, // the account is not expired
                                 true, // credentials are not expired
-                                true, // account is not locked
+                                true, // the account is not locked
                                 List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
                         )
                 )

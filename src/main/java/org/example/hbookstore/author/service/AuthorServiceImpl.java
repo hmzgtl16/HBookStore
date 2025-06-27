@@ -6,6 +6,7 @@ import org.example.hbookstore.author.api.dto.UpdateAuthorRequest;
 import org.example.hbookstore.author.domain.Author;
 import org.example.hbookstore.author.domain.AuthorRepository;
 import org.example.hbookstore.author.mapping.AuthorMapper;
+import org.example.hbookstore.shared.error.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,14 +38,14 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorResponse getAuthor(Long id) {
         return authorRepository.findById(id)
                 .map(authorMapper::toResponse)
-                    .orElseThrow(); // Consider throwing an exception instead of returning null
+                .orElseThrow(() -> new EntityNotFoundException("Author not found with id: " + id));
     }
 
     @Transactional
     @Override
     public AuthorResponse updateAuthor(Long id, UpdateAuthorRequest request) {
         Author author = authorRepository.findById(id)
-                .orElseThrow(); // Handle not found case
+                .orElseThrow(() -> new EntityNotFoundException("Author not found with id: " + id));
 
         Author updatedAuthor = authorMapper.updateEntity(author, request);
         return authorMapper.toResponse(authorRepository.save(updatedAuthor));
@@ -52,9 +53,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Transactional
     @Override
-    public void deleteAuthor(Long id) throws Exception {
+    public void deleteAuthor(Long id) {
         if (!authorRepository.existsById(id)) {
-            throw new Exception("Author not found with id: $id");
+            throw new EntityNotFoundException("Author not found with id: " + id);
         }
         authorRepository.deleteById(id);
     }

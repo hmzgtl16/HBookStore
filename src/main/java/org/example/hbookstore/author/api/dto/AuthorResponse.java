@@ -1,7 +1,6 @@
 package org.example.hbookstore.author.api.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public record AuthorResponse(
         Long id,
@@ -10,7 +9,7 @@ public record AuthorResponse(
         String biography,
         LocalDate birthDate,
         String nationality,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        java.time.Instant createdAt,
+        java.time.Instant updatedAt
 ) {
 }

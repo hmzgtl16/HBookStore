@@ -7,8 +7,8 @@ import org.example.hbookstore.book.domain.enums.BookFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -28,6 +28,6 @@ public class Book {
     private BookCategory category;
     private String coverImageUrl;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

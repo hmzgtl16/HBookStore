@@ -6,7 +6,7 @@ import org.example.hbookstore.book.api.dto.UpdateBookRequest;
 import org.example.hbookstore.book.domain.Book;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Component
 public class BookMapper {
@@ -24,8 +24,8 @@ public class BookMapper {
                 request.format(),
                 request.category(),
                 request.coverImageUrl(),
-                LocalDateTime.now(),
-                LocalDateTime.now()
+                Instant.now(),
+                Instant.now()
         );
     }
 
@@ -60,7 +60,7 @@ public class BookMapper {
         if (request.coverImageUrl() != null) {
             book.setCoverImageUrl(request.coverImageUrl());
         }
-        book.setUpdatedAt(LocalDateTime.now());
+        book.setUpdatedAt(Instant.now());
         return book;
     }
 
