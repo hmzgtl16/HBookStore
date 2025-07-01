@@ -1,6 +1,5 @@
 package org.example.hbookstore.shared.error;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -115,18 +114,6 @@ public class GlobalExceptionHandler {
         return createErrorResponse(
                 HttpStatus.NOT_FOUND,
                 exception.getMessage() != null ? exception.getMessage() : "User not found",
-                request.getRequestURI()
-        );
-    }
-
-    @ExceptionHandler(JWTVerificationException.class)
-    public ResponseEntity<ErrorResponse> handleJWTVerificationException(
-            JWTVerificationException exception,
-            HttpServletRequest request
-    ) {
-        return createErrorResponse(
-                HttpStatus.UNAUTHORIZED,
-                exception.getMessage() != null ? exception.getMessage() : "JWT verification failed",
                 request.getRequestURI()
         );
     }
