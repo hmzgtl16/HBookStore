@@ -75,6 +75,11 @@ Each domain package contains:
 
 ## API Documentation
 
+The API is documented using OpenAPI 3.0. You can access the Swagger UI at:
+
+- Swagger UI: `http://localhost:8080/swagger-ui.html`
+- OpenAPI Spec: `http://localhost:8080/api-docs`
+
 ### Books API
 
 - `GET /api/v1/books`: Get all books (paginated)
