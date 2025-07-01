@@ -1,0 +1,101 @@
+### Admin Login
+POST http://localhost:8080/api/v1/auth/login
+Authorization: Basic admin Admin123.
+Content-Type: application/json
+
+> {%
+    client.global.set("auth_token", response.body.accessToken);
+%}
+
+### User Login
+POST http://localhost:8080/api/v1/auth/login
+Authorization: Basic user1 User123.
+Content-Type: application/json
+
+> {%
+    client.global.set("auth_token", response.body.accessToken);
+%}
+
+### Create User Successfully
+POST http://localhost:8080/api/v1/users
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "username": "user3456",
+  "password": "User123.",
+  "role": 0
+}
+
+### Create User Bad Request Username already exists
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "User123.",
+  "role": 0
+}
+
+### Create User Bad Request Argument Not Valid
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+  "username": "us",
+  "password": "User",
+  "role": 0
+}
+
+### Get User Successfully
+GET http://localhost:8080/api/v1/users/1
+Authorization: Bearer {{auth_token}}
+
+### Get User Not Found
+GET http://localhost:8080/api/v1/users/999
+Authorization: Bearer {{auth_token}}
+
+### Update User Successfully
+PUT http://localhost:8080/api/v1/users/2
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "password": "User123.",
+  "role": 0,
+  "status": 0
+}
+
+### Update User Not Found
+PUT http://localhost:8080/api/v1/users/999
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "password": "User123.",
+  "role": 0,
+  "status": 0
+}
+
+### Delete User Successfully
+DELETE http://localhost:8080/api/v1/users/83
+Authorization: Bearer {{auth_token}}
+
+### Delete User Not Found
+DELETE http://localhost:8080/api/v1/users/999
+Authorization: Bearer {{auth_token}}
+
+### Get All Users Successfully
+GET http://localhost:8080/api/v1/users?page=0,size=10
+Authorization: Bearer {{auth_token}}
+
+### Get User By Username
+GET http://localhost:8080/api/v1/users/username/user1
+Authorization: Bearer {{auth_token}}
+
+### Get User By Username Not Found
+GET http://localhost:8080/api/v1/users/username/user999
+Authorization: Bearer {{auth_token}}
+
+### Get User By Username Bad Request
+

@@ -1,7 +1,6 @@
 package org.example.hbookstore.shared.securiry;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.hbookstore.shared.error.ErrorResponse;
@@ -33,7 +32,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             HttpServletRequest request,
             HttpServletResponse response,
             AccessDeniedException accessDeniedException
-    ) throws IOException, ServletException {
+    ) throws IOException {
         this.delegate.handle(request, response, accessDeniedException);
 
         response.setStatus(HttpStatus.FORBIDDEN.value());

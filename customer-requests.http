@@ -14,3 +14,59 @@ Content-Type: application/json
 ### Get Customer
 GET http://localhost:8080/api/v1/customers/1
 Authorization: Bearer {{auth_token}}
+
+### Get Customer Not Found
+GET http://localhost:8080/api/v1/customers/999
+Authorization: Bearer {{auth_token}}
+
+### Update Customer
+PUT http://localhost:8080/api/v1/customers/1
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "firstName": null,
+  "lastName": null,
+  "email": null,
+  "phoneNumber": null,
+  "category": 2,
+  "status": 0
+}
+
+### Update Customer Not Found
+PUT http://localhost:8080/api/v1/customers/999
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "",
+  "phoneNumber": "",
+  "category": 1,
+  "status": 0
+}
+
+### Delete Customer
+DELETE http://localhost:8080/api/v1/customers/1
+Authorization: Bearer {{auth_token}}
+
+### Delete Customer Not Found
+DELETE http://localhost:8080/api/v1/customers/999
+Authorization: Bearer {{auth_token}}
+
+### Get All Customers With Pagination
+GET http://localhost:8080/api/v1/customers?page=0,size=10
+Authorization: Bearer {{auth_token}}
+
+### Get All Customers By Category With Pagination
+GET http://localhost:8080/api/v1/customers/category/PREMIUM?page=0,size=10
+Authorization: Bearer {{auth_token}}
+
+### Get All Customers By Status  With Pagination
+GET http://localhost:8080/api/v1/customers/status/ACTIVE?page=0,size=10
+Authorization: Bearer {{auth_token}}
+
+### Search Customers With Pagination
+GET http://localhost:8080/api/v1/customers/search?query=avid&page=0,size=10
+Authorization: Bearer {{auth_token}}

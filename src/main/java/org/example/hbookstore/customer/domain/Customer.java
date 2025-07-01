@@ -2,6 +2,7 @@ package org.example.hbookstore.customer.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.hbookstore.customer.domain.enums.CustomerCategory;
 import org.example.hbookstore.customer.domain.enums.CustomerStatus;
 import org.springframework.data.annotation.Id;
@@ -11,6 +12,7 @@ import java.time.Instant;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "customers")
 public class Customer {
     @Id
@@ -26,7 +28,7 @@ public class Customer {
     private Instant createdAt;
     private Instant updatedAt;
 
-    Long userId; // Reference to the user in the user service
+    Long userId;
 
     public Customer(
             Long id,
