@@ -14,7 +14,7 @@ public class UserMapper {
 
     public User toEntity(CreateUserRequest request) {
         return new User(
-                null,
+                null, // ID will be set by the database
                 request.username(),
                 "", // Will be set by service
                 request.role(),

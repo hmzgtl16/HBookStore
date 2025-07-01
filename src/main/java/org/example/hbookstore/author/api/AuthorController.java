@@ -22,7 +22,9 @@ public class AuthorController {
     }
 
     @PostMapping
-    public ResponseEntity<AuthorResponse> createAuthor(CreateAuthorRequest request) {
+    public ResponseEntity<AuthorResponse> createAuthor(
+            @RequestBody CreateAuthorRequest request
+    ) {
         AuthorResponse response = authorService.createAuthor(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

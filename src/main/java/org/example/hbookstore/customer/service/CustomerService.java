@@ -7,7 +7,6 @@ import org.example.hbookstore.customer.domain.enums.CustomerCategory;
 import org.example.hbookstore.customer.domain.enums.CustomerStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 
 public interface CustomerService {
     CustomerResponse createCustomer(Long userId, CreateCustomerRequest request);

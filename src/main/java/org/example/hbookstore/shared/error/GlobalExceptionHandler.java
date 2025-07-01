@@ -1,9 +1,11 @@
 package org.example.hbookstore.shared.error;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -46,6 +48,18 @@ public class GlobalExceptionHandler {
         return createErrorResponse(
                 HttpStatus.UNAUTHORIZED,
                 exception.getMessage() != null ? exception.getMessage() : "Unauthorized",
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(
+            AuthenticationException exception,
+            HttpServletRequest request
+    ) {
+        return createErrorResponse(
+                HttpStatus.UNAUTHORIZED,
+                exception.getMessage() != null ? exception.getMessage() : "Authentication failed",
                 request.getRequestURI()
         );
     }
@@ -101,6 +115,18 @@ public class GlobalExceptionHandler {
         return createErrorResponse(
                 HttpStatus.NOT_FOUND,
                 exception.getMessage() != null ? exception.getMessage() : "User not found",
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    public ResponseEntity<ErrorResponse> handleJWTVerificationException(
+            JWTVerificationException exception,
+            HttpServletRequest request
+    ) {
+        return createErrorResponse(
+                HttpStatus.UNAUTHORIZED,
+                exception.getMessage() != null ? exception.getMessage() : "JWT verification failed",
                 request.getRequestURI()
         );
     }

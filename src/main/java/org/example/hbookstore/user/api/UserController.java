@@ -1,5 +1,6 @@
 package org.example.hbookstore.user.api;
 
+import jakarta.validation.Valid;
 import org.example.hbookstore.user.api.dto.CreateUserRequest;
 import org.example.hbookstore.user.api.dto.UpdateUserRequest;
 import org.example.hbookstore.user.api.dto.UserResponse;
@@ -23,14 +24,16 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponse> createUser(
-            @RequestBody CreateUserRequest request
+            @Valid @RequestBody CreateUserRequest request
     ) {
         UserResponse response = userService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> getUser(
+            @PathVariable Long id
+    ) {
         UserResponse response = userService.getUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -38,14 +41,16 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(
             @PathVariable Long id,
-            @RequestBody UpdateUserRequest request
+            @Valid @RequestBody UpdateUserRequest request
     ) {
         UserResponse response = userService.updateUser(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable Long id
+    ) {
         userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -59,7 +64,9 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
+    public ResponseEntity<UserResponse> getUserByUsername(
+            @PathVariable String username
+    ) {
         UserResponse response = userService.getUserByUsername(username);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

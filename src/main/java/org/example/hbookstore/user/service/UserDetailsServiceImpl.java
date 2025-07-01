@@ -10,8 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -24,16 +22,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-                .map((user) ->
-                        new User(
-                                user.getUsername(),
-                                user.getPassword(),
-                                user.getStatus().equals(UserStatus.ACTIVE),
-                                true, // the account is not expired
-                                true, // credentials are not expired
-                                true, // the account is not locked
-                                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
-                        )
+                .map(user ->
+                        User.builder()
+                                .username(user.getUsername())
+                                .password(user.getPassword())
+                                .authorities(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+                                .disabled(!user.getStatus().equals(UserStatus.ACTIVE))
+                                .accountExpired(false)
+                                .accountLocked(false)
+                                .credentialsExpired(false)
+                                .build()
                 )
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }

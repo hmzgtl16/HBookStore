@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         validateNewUser(request);
 
         User user = userMapper.toEntity(request);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.password()));
         return userMapper.toResponse(userRepository.save(user));
     }
 
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse getUser(Long id) {
         return userRepository.findById(id)
                 .map(userMapper::toResponse)
-                .orElseThrow();
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
 
     @Transactional
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void validateNewUser(CreateUserRequest request) {
-        if (!userRepository.existsByUsername(request.username())) {
+        if (userRepository.existsByUsername(request.username())) {
             throw new InvalidRequestException("Username already exists: " + request.username());
         }
     }

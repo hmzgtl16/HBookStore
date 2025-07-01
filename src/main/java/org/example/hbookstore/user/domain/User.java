@@ -22,5 +22,3 @@ public class User {
     private Instant createdAt;
     private Instant updatedAt;
 }
-
-

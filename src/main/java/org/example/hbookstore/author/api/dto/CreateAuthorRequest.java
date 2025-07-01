@@ -3,8 +3,6 @@ package org.example.hbookstore.author.api.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.time.LocalDate;
-
 /**
  * DTO for {@link org.example.hbookstore.author.domain.Author}
  */
