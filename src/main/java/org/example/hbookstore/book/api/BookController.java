@@ -1,5 +1,6 @@
 package org.example.hbookstore.book.api;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.hbookstore.book.api.dto.BookResponse;
 import org.example.hbookstore.book.api.dto.CreateBookRequest;
 import org.example.hbookstore.book.api.dto.UpdateBookRequest;
@@ -13,6 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(
+        name = "Book Management",
+        description = "APIs for managing books in the bookstore system."
+)
 @RestController
 @RequestMapping("/api/v1/books")
 public class BookController {

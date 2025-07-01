@@ -1,5 +1,6 @@
 package org.example.hbookstore.review.api;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.hbookstore.review.api.dto.CreateReviewRequest;
 import org.example.hbookstore.review.api.dto.ReviewResponse;
 import org.example.hbookstore.review.api.dto.UpdateReviewRequest;
@@ -11,6 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(
+        name = "Review Management",
+        description = "APIs for managing book reviews in the bookstore system."
+)
 @RestController
 @RequestMapping("/api/v1/reviews")
 public class ReviewController {

@@ -1,5 +1,6 @@
 package org.example.hbookstore.author.api;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.hbookstore.author.api.dto.AuthorResponse;
 import org.example.hbookstore.author.api.dto.CreateAuthorRequest;
 import org.example.hbookstore.author.api.dto.UpdateAuthorRequest;
@@ -11,6 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(
+        name = "Author Management",
+        description = "APIs for managing authors in the bookstore system."
+)
 @RestController
 @RequestMapping("/api/v1/authors")
 public class AuthorController {

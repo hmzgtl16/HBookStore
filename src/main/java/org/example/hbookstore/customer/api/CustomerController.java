@@ -1,5 +1,6 @@
 package org.example.hbookstore.customer.api;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.hbookstore.customer.api.dto.CreateCustomerRequest;
 import org.example.hbookstore.customer.api.dto.CustomerResponse;
 import org.example.hbookstore.customer.api.dto.UpdateCustomerRequest;
@@ -13,6 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(
+        name = "Customer Management",
+        description = "APIs for managing customers in the bookstore system."
+)
 @RestController
 @RequestMapping("/api/v1/customers")
 public class CustomerController {
