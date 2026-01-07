@@ -1,16 +1,17 @@
 package org.example.hbookstore.shared.securiry;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.hbookstore.shared.error.ErrorResponse;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -20,19 +21,19 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     private final AuthenticationEntryPoint delegate = new BearerTokenAuthenticationEntryPoint();
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     public CustomAuthenticationEntryPoint(
-            ObjectMapper objectMapper
+            JsonMapper jsonMapper
     ) {
-        this.objectMapper = objectMapper;
+        this.jsonMapper = jsonMapper;
     }
 
     @Override
     public void commence(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            AuthenticationException authException
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull AuthenticationException authException
     ) throws IOException, ServletException {
         this.delegate.commence(request, response, authException);
 
@@ -46,6 +47,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                 authException.getMessage(),
                 request.getRequestURI()
         );
-        objectMapper.writeValue(response.getWriter(), errorResponse);
+        jsonMapper.writeValue(response.getWriter(), errorResponse);
     }
 }
