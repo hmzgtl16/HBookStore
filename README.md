@@ -15,7 +15,7 @@ customers, and reviews.
 ## Technologies Used
 
 - **Java 21**
-- **Spring Boot 3.5.3**
+- **Spring Boot 4.0.1**
 - **Spring Security** with JWT authentication
 - **Spring Data JDBC**
 - **PostgreSQL** database
