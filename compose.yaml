@@ -1,6 +1,7 @@
 services:
   db:
-    image: 'postgres:13.21'
+    container_name: 'db'
+    image: 'postgres:latest'
     environment:
       - 'POSTGRES_DB=hbookstore_db'
       - 'POSTGRES_PASSWORD=hbookstore_password'
