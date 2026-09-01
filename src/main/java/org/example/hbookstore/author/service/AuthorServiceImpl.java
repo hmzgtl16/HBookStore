@@ -18,10 +18,7 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
 
-    public AuthorServiceImpl(
-            AuthorRepository authorRepository,
-            AuthorMapper authorMapper
-    ) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, AuthorMapper authorMapper) {
         this.authorRepository = authorRepository;
         this.authorMapper = authorMapper;
     }
@@ -36,7 +33,8 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional(readOnly = true)
     @Override
     public AuthorResponse getAuthor(Long id) {
-        return authorRepository.findById(id)
+        return authorRepository
+                .findById(id)
                 .map(authorMapper::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Author not found with id: " + id));
     }
@@ -44,8 +42,13 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     @Override
     public AuthorResponse updateAuthor(Long id, UpdateAuthorRequest request) {
-        Author author = authorRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Author not found with id: " + id));
+        Author author =
+                authorRepository
+                        .findById(id)
+                        .orElseThrow(
+                                () ->
+                                        new EntityNotFoundException(
+                                                "Author not found with id: " + id));
 
         Author updatedAuthor = authorMapper.updateEntity(author, request);
         return authorMapper.toResponse(authorRepository.save(updatedAuthor));
@@ -63,14 +66,14 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional(readOnly = true)
     @Override
     public Page<AuthorResponse> getAllAuthors(Pageable pageable) {
-        return authorRepository.findAll(pageable)
-                .map(authorMapper::toResponse);
+        return authorRepository.findAll(pageable).map(authorMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<AuthorResponse> getAuthorsByNationality(String nationality, Pageable pageable) {
-        return authorRepository.findByNationality(nationality, pageable)
+        return authorRepository
+                .findByNationality(nationality, pageable)
                 .map(authorMapper::toResponse);
     }
 
@@ -78,7 +81,8 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Page<AuthorResponse> searchAuthors(String query, Pageable pageable) {
         return authorRepository
-                .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(query, query, pageable)
+                .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
+                        query, query, pageable)
                 .map(authorMapper::toResponse);
     }
 }

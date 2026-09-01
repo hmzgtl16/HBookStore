@@ -7,13 +7,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AuthorRepository extends CrudRepository<Author, Long>, PagingAndSortingRepository<Author, Long> {
+public interface AuthorRepository
+        extends CrudRepository<Author, Long>, PagingAndSortingRepository<Author, Long> {
 
     Page<Author> findByNationality(String nationality, Pageable pageable);
 
     Page<Author> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
-            String firstName,
-            String lastName,
-            Pageable pageable
-    );
+            String firstName, String lastName, Pageable pageable);
 }

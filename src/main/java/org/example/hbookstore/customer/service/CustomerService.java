@@ -10,11 +10,18 @@ import org.springframework.data.domain.Pageable;
 
 public interface CustomerService {
     CustomerResponse createCustomer(Long userId, CreateCustomerRequest request);
+
     CustomerResponse getCustomer(Long id);
+
     CustomerResponse updateCustomer(Long id, UpdateCustomerRequest request);
+
     void deleteCustomer(Long id);
+
     Page<CustomerResponse> getAllCustomers(Pageable pageable);
+
     Page<CustomerResponse> getCustomersByStatus(CustomerStatus status, Pageable pageable);
+
     Page<CustomerResponse> getCustomersByCategory(CustomerCategory category, Pageable pageable);
+
     Page<CustomerResponse> searchCustomers(String query, Pageable pageable);
 }

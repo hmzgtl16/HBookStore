@@ -1,13 +1,10 @@
 package org.example.hbookstore.book.api.dto;
 
+import java.time.LocalDate;
 import org.example.hbookstore.book.domain.enums.BookCategory;
 import org.example.hbookstore.book.domain.enums.BookFormat;
 
-import java.time.LocalDate;
-
-/**
- * DTO for {@link org.example.hbookstore.book.domain.Book}
- */
+/** DTO for {@link org.example.hbookstore.book.domain.Book} */
 public record UpdateBookRequest(
         String title,
         String description,
@@ -18,6 +15,4 @@ public record UpdateBookRequest(
         String language,
         BookFormat format,
         BookCategory category,
-        String coverImageUrl
-) {
-}
+        String coverImageUrl) {}

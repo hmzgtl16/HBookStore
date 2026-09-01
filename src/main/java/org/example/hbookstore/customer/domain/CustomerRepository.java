@@ -9,14 +9,16 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CustomerRepository extends CrudRepository<Customer, Long>, PagingAndSortingRepository<Customer, Long> {
+public interface CustomerRepository
+        extends CrudRepository<Customer, Long>, PagingAndSortingRepository<Customer, Long> {
     boolean existsByUserId(Long userId);
+
     boolean existsByEmail(String email);
+
     Page<Customer> findByStatus(CustomerStatus status, Pageable pageable);
+
     Page<Customer> findByCategory(CustomerCategory category, Pageable pageable);
+
     Page<Customer> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
-            String firstName,
-            String lastName,
-            Pageable pageable
-    );
+            String firstName, String lastName, Pageable pageable);
 }

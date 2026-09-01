@@ -6,7 +6,6 @@ import org.example.hbookstore.user.api.dto.UserResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-
 public interface UserService {
     UserResponse createUser(CreateUserRequest request);
 

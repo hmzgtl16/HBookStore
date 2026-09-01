@@ -1,12 +1,11 @@
 package org.example.hbookstore.book.mapping;
 
+import java.time.Instant;
 import org.example.hbookstore.book.api.dto.BookResponse;
 import org.example.hbookstore.book.api.dto.CreateBookRequest;
 import org.example.hbookstore.book.api.dto.UpdateBookRequest;
 import org.example.hbookstore.book.domain.Book;
 import org.springframework.stereotype.Component;
-
-import java.time.Instant;
 
 @Component
 public class BookMapper {
@@ -25,8 +24,7 @@ public class BookMapper {
                 request.category(),
                 request.coverImageUrl(),
                 Instant.now(),
-                Instant.now()
-        );
+                Instant.now());
     }
 
     public Book updateEntity(Book book, UpdateBookRequest request) {
@@ -78,7 +76,6 @@ public class BookMapper {
                 book.getCoverImageUrl(),
                 book.getCreatedAt(),
                 book.getUpdatedAt(),
-                book.getAuthorId()
-        );
+                book.getAuthorId());
     }
 }

@@ -1,18 +1,16 @@
 package org.example.hbookstore.review.domain;
 
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.Instant;
-
 @Data
 @AllArgsConstructor
 @Table("reviews")
 public class Review {
-    @Id
-    private Long id;
+    @Id private Long id;
     private Long customerId;
     private Long bookId;
     private int rating;

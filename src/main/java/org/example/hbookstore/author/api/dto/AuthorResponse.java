@@ -8,6 +8,4 @@ public record AuthorResponse(
         String lastName,
         String nationality,
         Instant createdAt,
-        Instant updatedAt
-) {
-}
+        Instant updatedAt) {}

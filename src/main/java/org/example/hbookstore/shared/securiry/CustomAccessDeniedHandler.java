@@ -2,6 +2,8 @@ package org.example.hbookstore.shared.securiry;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.Instant;
 import org.example.hbookstore.shared.error.ErrorResponse;
 import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpStatus;
@@ -12,9 +14,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.json.JsonMapper;
 
-import java.io.IOException;
-import java.time.Instant;
-
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
@@ -22,9 +21,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     private final JsonMapper jsonMapper;
 
-    public CustomAccessDeniedHandler(
-            JsonMapper jsonMapper
-    ) {
+    public CustomAccessDeniedHandler(JsonMapper jsonMapper) {
         this.jsonMapper = jsonMapper;
     }
 
@@ -32,20 +29,20 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull AccessDeniedException accessDeniedException
-    ) throws IOException {
+            @NonNull AccessDeniedException accessDeniedException)
+            throws IOException {
         this.delegate.handle(request, response, accessDeniedException);
 
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        ErrorResponse errorResponse = new ErrorResponse(
-                Instant.now(),
-                HttpStatus.FORBIDDEN.value(),
-                HttpStatus.FORBIDDEN.getReasonPhrase(),
-                accessDeniedException.getMessage(),
-                request.getRequestURI()
-        );
+        ErrorResponse errorResponse =
+                new ErrorResponse(
+                        Instant.now(),
+                        HttpStatus.FORBIDDEN.value(),
+                        HttpStatus.FORBIDDEN.getReasonPhrase(),
+                        accessDeniedException.getMessage(),
+                        request.getRequestURI());
         jsonMapper.writeValue(response.getWriter(), errorResponse);
     }
 }

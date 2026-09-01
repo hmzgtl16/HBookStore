@@ -1,5 +1,7 @@
 package org.example.hbookstore.book.domain;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.example.hbookstore.book.domain.enums.BookCategory;
@@ -7,15 +9,11 @@ import org.example.hbookstore.book.domain.enums.BookFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.Instant;
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @Table(name = "books")
 public class Book {
-    @Id
-    private Long id;
+    @Id private Long id;
     private String title;
     private String description;
     private Long authorId; // FK to Author
