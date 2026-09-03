@@ -17,12 +17,14 @@ public interface CustomerMapper {
     @Mapping(target = "status", expression = "java(CustomerStatus.ACTIVE)")
     @Mapping(target = "createdAt", expression = "java(Instant.now())")
     @Mapping(target = "updatedAt", expression = "java(Instant.now())")
+    @Mapping(target = "userId", ignore = true)
     Customer toEntity(CreateCustomerRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "userId", ignore = true)
     Customer updateEntity(@MappingTarget Customer customer, UpdateCustomerRequest request);
 
     CustomerResponse toResponse(Customer customer);
@@ -32,4 +34,3 @@ public interface CustomerMapper {
         customer.setUpdatedAt(Instant.now());
     }
 }
-
