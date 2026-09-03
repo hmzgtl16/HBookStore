@@ -1,12 +1,11 @@
 package org.example.hbookstore.author.mapping;
 
+import java.time.Instant;
 import org.example.hbookstore.author.api.dto.AuthorResponse;
 import org.example.hbookstore.author.api.dto.CreateAuthorRequest;
 import org.example.hbookstore.author.api.dto.UpdateAuthorRequest;
 import org.example.hbookstore.author.domain.Author;
 import org.springframework.stereotype.Component;
-
-import java.time.Instant;
 
 @Component
 public class AuthorMapper {
@@ -18,8 +17,7 @@ public class AuthorMapper {
                 request.lastName(),
                 request.nationality(),
                 Instant.now(),
-                Instant.now()
-        );
+                Instant.now());
     }
 
     public Author updateEntity(Author author, UpdateAuthorRequest request) {
@@ -43,7 +41,6 @@ public class AuthorMapper {
                 author.getLastName(),
                 author.getNationality(),
                 author.getCreatedAt(),
-                author.getUpdatedAt()
-        );
+                author.getUpdatedAt());
     }
 }

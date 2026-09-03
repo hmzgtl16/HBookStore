@@ -3,6 +3,8 @@ package org.example.hbookstore.shared.securiry;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.Instant;
 import org.example.hbookstore.shared.error.ErrorResponse;
 import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpStatus;
@@ -13,9 +15,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.json.JsonMapper;
 
-import java.io.IOException;
-import java.time.Instant;
-
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
@@ -23,9 +22,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     private final JsonMapper jsonMapper;
 
-    public CustomAuthenticationEntryPoint(
-            JsonMapper jsonMapper
-    ) {
+    public CustomAuthenticationEntryPoint(JsonMapper jsonMapper) {
         this.jsonMapper = jsonMapper;
     }
 
@@ -33,20 +30,20 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull AuthenticationException authException
-    ) throws IOException, ServletException {
+            @NonNull AuthenticationException authException)
+            throws IOException, ServletException {
         this.delegate.commence(request, response, authException);
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        ErrorResponse errorResponse = new ErrorResponse(
-                Instant.now(),
-                HttpStatus.UNAUTHORIZED.value(),
-                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
-                authException.getMessage(),
-                request.getRequestURI()
-        );
+        ErrorResponse errorResponse =
+                new ErrorResponse(
+                        Instant.now(),
+                        HttpStatus.UNAUTHORIZED.value(),
+                        HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                        authException.getMessage(),
+                        request.getRequestURI());
         jsonMapper.writeValue(response.getWriter(), errorResponse);
     }
 }

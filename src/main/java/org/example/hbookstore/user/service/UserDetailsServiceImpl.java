@@ -1,6 +1,5 @@
 package org.example.hbookstore.user.service;
 
-
 import org.example.hbookstore.user.domain.UserRepository;
 import org.example.hbookstore.user.domain.enums.UserStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,18 +20,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .map(user ->
-                        User.builder()
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .authorities(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
-                                .disabled(!user.getStatus().equals(UserStatus.ACTIVE))
-                                .accountExpired(false)
-                                .accountLocked(false)
-                                .credentialsExpired(false)
-                                .build()
-                )
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        return userRepository
+                .findByUsername(username)
+                .map(
+                        user ->
+                                User.builder()
+                                        .username(user.getUsername())
+                                        .password(user.getPassword())
+                                        .authorities(
+                                                new SimpleGrantedAuthority(
+                                                        "ROLE_" + user.getRole().name()))
+                                        .disabled(!user.getStatus().equals(UserStatus.ACTIVE))
+                                        .accountExpired(false)
+                                        .accountLocked(false)
+                                        .credentialsExpired(false)
+                                        .build())
+                .orElseThrow(
+                        () ->
+                                new UsernameNotFoundException(
+                                        "User not found with username: " + username));
     }
 }

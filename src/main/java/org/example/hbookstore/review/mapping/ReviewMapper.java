@@ -1,12 +1,11 @@
 package org.example.hbookstore.review.mapping;
 
+import java.time.Instant;
 import org.example.hbookstore.review.api.dto.CreateReviewRequest;
 import org.example.hbookstore.review.api.dto.ReviewResponse;
 import org.example.hbookstore.review.api.dto.UpdateReviewRequest;
 import org.example.hbookstore.review.domain.Review;
 import org.springframework.stereotype.Component;
-
-import java.time.Instant;
 
 @Component
 public class ReviewMapper {
@@ -19,8 +18,7 @@ public class ReviewMapper {
                 request.rating(),
                 request.comment(),
                 Instant.now(),
-                Instant.now()
-        );
+                Instant.now());
     }
 
     public Review updateEntity(Review review, UpdateReviewRequest request) {
@@ -42,7 +40,6 @@ public class ReviewMapper {
                 review.getRating(),
                 review.getComment(),
                 review.getCreatedAt(),
-                review.getUpdatedAt()
-        );
+                review.getUpdatedAt());
     }
 }

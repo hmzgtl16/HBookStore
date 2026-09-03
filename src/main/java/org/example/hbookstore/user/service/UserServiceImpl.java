@@ -22,10 +22,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(
-            UserRepository userRepository,
-            UserMapper userMapper,
-            PasswordEncoder passwordEncoder
-    ) {
+            UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
@@ -44,7 +41,8 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public UserResponse getUser(Long id) {
-        return userRepository.findById(id)
+        return userRepository
+                .findById(id)
                 .map(userMapper::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
@@ -52,8 +50,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserResponse updateUser(Long id, UpdateUserRequest request) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+        User user =
+                userRepository
+                        .findById(id)
+                        .orElseThrow(
+                                () -> new EntityNotFoundException("User not found with id: " + id));
 
         User updatedUser = userMapper.updateEntity(user, request);
         if (request.password() != null) {
@@ -74,16 +75,19 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public Page<UserResponse> getAllUsers(Pageable pageable) {
-        return userRepository.findAll(pageable)
-                .map(userMapper::toResponse);
+        return userRepository.findAll(pageable).map(userMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     @Override
     public UserResponse getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
+        return userRepository
+                .findByUsername(username)
                 .map(userMapper::toResponse)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
+                .orElseThrow(
+                        () ->
+                                new EntityNotFoundException(
+                                        "User not found with username: " + username));
     }
 
     private void validateNewUser(CreateUserRequest request) {

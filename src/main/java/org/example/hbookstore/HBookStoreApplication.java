@@ -12,5 +12,4 @@ public class HBookStoreApplication {
     public static void main(String[] args) {
         SpringApplication.run(HBookStoreApplication.class, args);
     }
-
 }

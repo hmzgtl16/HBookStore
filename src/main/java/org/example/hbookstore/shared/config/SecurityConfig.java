@@ -6,6 +6,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+
 import org.example.hbookstore.shared.securiry.CustomAccessDeniedHandler;
 import org.example.hbookstore.shared.securiry.CustomAuthenticationEntryPoint;
 import org.example.hbookstore.shared.securiry.GrantedAuthoritiesConverter;
@@ -40,8 +41,7 @@ public class SecurityConfig {
     public SecurityConfig(
             RsaProperties rsaProperties,
             CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
-            CustomAccessDeniedHandler customAccessDeniedHandler
-    ) {
+            CustomAccessDeniedHandler customAccessDeniedHandler) {
         this.rsaProperties = rsaProperties;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
         this.customAccessDeniedHandler = customAccessDeniedHandler;
@@ -49,52 +49,66 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
+        return http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize ->
-                        authorize
-                                .requestMatchers("/api/v1/auth/**").permitAll()
-
-                                .requestMatchers("/api-docs/**", "/api-docs.yaml").permitAll()
-                                .requestMatchers("/swagger-ui/**", "/swagger-ui.html").permitAll()
-
-                                .requestMatchers("/api/v1/users").hasRole("ADMIN")
-                                .requestMatchers("/api/v1/users/**").hasRole("ADMIN")
-
-                                .requestMatchers(HttpMethod.POST, "/api/v1/books").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/v1/books").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/v1/books/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/v1/books/**").hasAnyRole("USER", "ADMIN")
-
-                                .requestMatchers(HttpMethod.POST, "/api/v1/authors").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/v1/authors").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/v1/authors/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/v1/authors/**").hasAnyRole("USER", "ADMIN")
-
-                                .requestMatchers(HttpMethod.POST, "/api/v1/reviews").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/v1/reviews").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/v1/reviews/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
-
-                                .requestMatchers(HttpMethod.POST, "/api/v1/customers").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/v1/customers").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/v1/customers/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/v1/customers/**").hasAnyRole("USER", "ADMIN")
-
-                                .anyRequest().authenticated()
-                )
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .oauth2ResourceServer(configurer ->
-                        configurer
-                                .jwt(jwtConfigurer ->
-                                        jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter())
-                                )
-                                .authenticationEntryPoint(customAuthenticationEntryPoint)
-                                .accessDeniedHandler(customAccessDeniedHandler)
-                )
+                .authorizeHttpRequests(
+                        authorize ->
+                                authorize
+                                        .requestMatchers("/api/v1/auth/**")
+                                        .permitAll()
+                                        .requestMatchers("/api-docs/**", "/api-docs.yaml")
+                                        .permitAll()
+                                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html")
+                                        .permitAll()
+                                        .requestMatchers("/api/v1/users")
+                                        .hasRole("ADMIN")
+                                        .requestMatchers("/api/v1/users/**")
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.POST, "/api/v1/books")
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.GET, "/api/v1/books")
+                                        .hasAnyRole("USER", "ADMIN")
+                                        .requestMatchers("/api/v1/books/**")
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.GET, "/api/v1/books/**")
+                                        .hasAnyRole("USER", "ADMIN")
+                                        .requestMatchers(HttpMethod.POST, "/api/v1/authors")
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.GET, "/api/v1/authors")
+                                        .hasAnyRole("USER", "ADMIN")
+                                        .requestMatchers("/api/v1/authors/**")
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.GET, "/api/v1/authors/**")
+                                        .hasAnyRole("USER", "ADMIN")
+                                        .requestMatchers(HttpMethod.POST, "/api/v1/reviews")
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.GET, "/api/v1/reviews")
+                                        .hasAnyRole("USER", "ADMIN")
+                                        .requestMatchers("/api/v1/reviews/**")
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.GET, "/api/v1/reviews/**")
+                                        .hasAnyRole("USER", "ADMIN")
+                                        .requestMatchers(HttpMethod.POST, "/api/v1/customers")
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.GET, "/api/v1/customers")
+                                        .hasAnyRole("USER", "ADMIN")
+                                        .requestMatchers("/api/v1/customers/**")
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.GET, "/api/v1/customers/**")
+                                        .hasAnyRole("USER", "ADMIN")
+                                        .anyRequest()
+                                        .authenticated())
+                .sessionManagement(
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2ResourceServer(
+                        configurer ->
+                                configurer
+                                        .jwt(
+                                                jwtConfigurer ->
+                                                        jwtConfigurer.jwtAuthenticationConverter(
+                                                                jwtAuthenticationConverter()))
+                                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                                        .accessDeniedHandler(customAccessDeniedHandler))
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
@@ -111,7 +125,10 @@ public class SecurityConfig {
 
     @Bean
     JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(rsaProperties.publicKey()).privateKey(rsaProperties.privateKey()).build();
+        JWK jwk =
+                new RSAKey.Builder(rsaProperties.publicKey())
+                        .privateKey(rsaProperties.privateKey())
+                        .build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }

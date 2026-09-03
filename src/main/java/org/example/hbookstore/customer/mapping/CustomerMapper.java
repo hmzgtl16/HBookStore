@@ -1,13 +1,12 @@
 package org.example.hbookstore.customer.mapping;
 
+import java.time.Instant;
 import org.example.hbookstore.customer.api.dto.CreateCustomerRequest;
 import org.example.hbookstore.customer.api.dto.CustomerResponse;
 import org.example.hbookstore.customer.api.dto.UpdateCustomerRequest;
 import org.example.hbookstore.customer.domain.Customer;
 import org.example.hbookstore.customer.domain.enums.CustomerStatus;
 import org.springframework.stereotype.Component;
-
-import java.time.Instant;
 
 @Component
 public class CustomerMapper {
@@ -22,8 +21,7 @@ public class CustomerMapper {
                 CustomerStatus.ACTIVE,
                 request.category(),
                 Instant.now(),
-                Instant.now()
-        );
+                Instant.now());
     }
 
     public Customer updateEntity(Customer customer, UpdateCustomerRequest request) {
@@ -61,7 +59,6 @@ public class CustomerMapper {
                 customer.getStatus(),
                 customer.getCreatedAt(),
                 customer.getUpdatedAt(),
-                customer.getUserId()
-        );
+                customer.getUserId());
     }
 }

@@ -9,7 +9,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BookRepository extends CrudRepository<Book, Long>, PagingAndSortingRepository<Book, Long> {
+public interface BookRepository
+        extends CrudRepository<Book, Long>, PagingAndSortingRepository<Book, Long> {
 
     boolean existsByIsbn(String isbn);
 
@@ -23,10 +24,7 @@ public interface BookRepository extends CrudRepository<Book, Long>, PagingAndSor
 
     Page<Book> findByPublisher(String publisher, Pageable pageable);
 
-    Page<Book> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrPublisherContainingIgnoreCase(
-            String title,
-            String description,
-            String publisher,
-            Pageable pageable
-    );
+    Page<Book>
+            findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrPublisherContainingIgnoreCase(
+                    String title, String description, String publisher, Pageable pageable);
 }

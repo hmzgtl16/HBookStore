@@ -1,13 +1,12 @@
 package org.example.hbookstore.user.mapping;
 
+import java.time.Instant;
 import org.example.hbookstore.user.api.dto.CreateUserRequest;
 import org.example.hbookstore.user.api.dto.UpdateUserRequest;
 import org.example.hbookstore.user.api.dto.UserResponse;
 import org.example.hbookstore.user.domain.User;
 import org.example.hbookstore.user.domain.enums.UserStatus;
 import org.springframework.stereotype.Component;
-
-import java.time.Instant;
 
 @Component
 public class UserMapper {
@@ -20,8 +19,7 @@ public class UserMapper {
                 request.role(),
                 UserStatus.ACTIVE,
                 Instant.now(),
-                Instant.now()
-        );
+                Instant.now());
     }
 
     public User updateEntity(User user, UpdateUserRequest request) {
@@ -42,8 +40,6 @@ public class UserMapper {
                 user.getRole(),
                 user.getStatus(),
                 user.getCreatedAt(),
-                user.getUpdatedAt()
-        );
+                user.getUpdatedAt());
     }
-
 }

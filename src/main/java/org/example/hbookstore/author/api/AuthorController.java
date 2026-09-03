@@ -1,6 +1,7 @@
 package org.example.hbookstore.author.api;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.example.hbookstore.author.api.dto.AuthorResponse;
 import org.example.hbookstore.author.api.dto.CreateAuthorRequest;
 import org.example.hbookstore.author.api.dto.UpdateAuthorRequest;
@@ -12,10 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(
-        name = "Author Management",
-        description = "APIs for managing authors in the bookstore system."
-)
+@Tag(name = "Author Management", description = "APIs for managing authors in the bookstore system.")
 @RestController
 @RequestMapping("/api/v1/authors")
 public class AuthorController {
@@ -27,9 +25,7 @@ public class AuthorController {
     }
 
     @PostMapping
-    public ResponseEntity<AuthorResponse> createAuthor(
-            @RequestBody CreateAuthorRequest request
-    ) {
+    public ResponseEntity<AuthorResponse> createAuthor(@RequestBody CreateAuthorRequest request) {
         AuthorResponse response = authorService.createAuthor(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -42,9 +38,7 @@ public class AuthorController {
 
     @PutMapping("/{id}")
     public ResponseEntity<AuthorResponse> updateAuthor(
-            @PathVariable Long id,
-            @RequestBody UpdateAuthorRequest request
-    ) {
+            @PathVariable Long id, @RequestBody UpdateAuthorRequest request) {
         AuthorResponse response = authorService.updateAuthor(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -57,26 +51,22 @@ public class AuthorController {
 
     @GetMapping
     public ResponseEntity<Page<AuthorResponse>> getAllAuthors(
-            @PageableDefault(size = 20) Pageable pageable
-    ) {
+            @PageableDefault(size = 20) Pageable pageable) {
         Page<AuthorResponse> response = authorService.getAllAuthors(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/nationality/{nationality}")
     public ResponseEntity<Page<AuthorResponse>> getAuthorsByNationality(
-            @PathVariable String nationality,
-            @PageableDefault(size = 20) Pageable pageable
-    ) {
-        Page<AuthorResponse> response = authorService.getAuthorsByNationality(nationality, pageable);
+            @PathVariable String nationality, @PageableDefault(size = 20) Pageable pageable) {
+        Page<AuthorResponse> response =
+                authorService.getAuthorsByNationality(nationality, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/search")
     public ResponseEntity<Page<AuthorResponse>> searchAuthors(
-            @RequestParam String query,
-            @PageableDefault(size = 20) Pageable pageable
-    ) {
+            @RequestParam String query, @PageableDefault(size = 20) Pageable pageable) {
         Page<AuthorResponse> response = authorService.searchAuthors(query, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

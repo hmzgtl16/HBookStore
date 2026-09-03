@@ -8,10 +8,16 @@ import org.springframework.data.domain.Pageable;
 
 public interface ReviewService {
     ReviewResponse createReview(CreateReviewRequest request);
+
     ReviewResponse getReview(Long id);
+
     ReviewResponse updateReview(Long id, UpdateReviewRequest request);
+
     void deleteReview(Long id);
+
     Page<ReviewResponse> getAllReviews(Pageable pageable);
+
     Page<ReviewResponse> getReviewsByBookId(Long bookId, Pageable pageable);
+
     Page<ReviewResponse> getReviewsByCustomerId(Long userId, Pageable pageable);
 }

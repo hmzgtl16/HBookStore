@@ -16,15 +16,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CustomerServiceImpl implements  CustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
     public CustomerServiceImpl(
-            CustomerRepository customerRepository,
-            CustomerMapper customerMapper
-    ) {
+            CustomerRepository customerRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
         this.customerMapper = customerMapper;
     }
@@ -41,16 +39,23 @@ public class CustomerServiceImpl implements  CustomerService {
     @Transactional(readOnly = true)
     @Override
     public CustomerResponse getCustomer(Long id) {
-        return customerRepository.findById(id)
+        return customerRepository
+                .findById(id)
                 .map(customerMapper::toResponse)
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Customer not found with id: " + id));
     }
 
     @Transactional
     @Override
     public CustomerResponse updateCustomer(Long id, UpdateCustomerRequest request) {
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
+        Customer customer =
+                customerRepository
+                        .findById(id)
+                        .orElseThrow(
+                                () ->
+                                        new EntityNotFoundException(
+                                                "Customer not found with id: " + id));
         customer = customerMapper.updateEntity(customer, request);
         return customerMapper.toResponse(customerRepository.save(customer));
     }
@@ -67,28 +72,30 @@ public class CustomerServiceImpl implements  CustomerService {
     @Transactional(readOnly = true)
     @Override
     public Page<CustomerResponse> getAllCustomers(Pageable pageable) {
-        return customerRepository.findAll(pageable)
-                .map(customerMapper::toResponse);
+        return customerRepository.findAll(pageable).map(customerMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<CustomerResponse> getCustomersByStatus(CustomerStatus status, Pageable pageable) {
-        return customerRepository.findByStatus(status, pageable)
-                .map(customerMapper::toResponse);
+        return customerRepository.findByStatus(status, pageable).map(customerMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Page<CustomerResponse> getCustomersByCategory(CustomerCategory category, Pageable pageable) {
-        return customerRepository.findByCategory(category, pageable)
+    public Page<CustomerResponse> getCustomersByCategory(
+            CustomerCategory category, Pageable pageable) {
+        return customerRepository
+                .findByCategory(category, pageable)
                 .map(customerMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<CustomerResponse> searchCustomers(String query, Pageable pageable) {
-        return customerRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(query, query, pageable)
+        return customerRepository
+                .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
+                        query, query, pageable)
                 .map(customerMapper::toResponse);
     }
 

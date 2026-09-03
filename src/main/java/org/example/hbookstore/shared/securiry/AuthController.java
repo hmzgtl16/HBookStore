@@ -16,18 +16,13 @@ public class AuthController {
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
 
-    public AuthController(
-            UserDetailsService userDetailsService,
-            JwtService jwtService
-    ) {
+    public AuthController(UserDetailsService userDetailsService, JwtService jwtService) {
         this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
     }
 
     @PostMapping("/login")
-    ResponseEntity<LoginResponse> login(
-            Authentication authentication
-    ) {
+    ResponseEntity<LoginResponse> login(Authentication authentication) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
         String token = jwtService.generateToken(userDetails);
 

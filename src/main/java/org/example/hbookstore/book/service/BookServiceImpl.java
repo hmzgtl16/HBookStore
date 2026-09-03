@@ -21,10 +21,7 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
-    public BookServiceImpl(
-            BookRepository bookRepository,
-            BookMapper bookMapper
-    ) {
+    public BookServiceImpl(BookRepository bookRepository, BookMapper bookMapper) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
     }
@@ -39,7 +36,8 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public BookResponse getBook(Long id) {
-        return bookRepository.findById(id)
+        return bookRepository
+                .findById(id)
                 .map(bookMapper::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
     }
@@ -47,8 +45,11 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public BookResponse updateBook(Long id, UpdateBookRequest request) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
+        Book book =
+                bookRepository
+                        .findById(id)
+                        .orElseThrow(
+                                () -> new EntityNotFoundException("Book not found with id: " + id));
 
         if (bookRepository.existsByIsbn(request.isbn())) {
             throw new InvalidRequestException("ISBN already exists: " + request.isbn());
@@ -70,42 +71,36 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public Page<BookResponse> getAllBooks(Pageable pageable) {
-        return bookRepository.findAll(pageable)
-                .map(bookMapper::toResponse);
+        return bookRepository.findAll(pageable).map(bookMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<BookResponse> getBooksByAuthor(Long authorId, Pageable pageable) {
-        return bookRepository.findByAuthorId(authorId, pageable)
-                .map(bookMapper::toResponse);
+        return bookRepository.findByAuthorId(authorId, pageable).map(bookMapper::toResponse);
     }
 
     @Override
     public Page<BookResponse> getBooksByCategory(BookCategory category, Pageable pageable) {
-        return bookRepository.findByCategory(category, pageable)
-                .map(bookMapper::toResponse);
+        return bookRepository.findByCategory(category, pageable).map(bookMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<BookResponse> getBooksByFormat(BookFormat format, Pageable pageable) {
-        return bookRepository.findByFormat(format, pageable)
-                .map(bookMapper::toResponse);
+        return bookRepository.findByFormat(format, pageable).map(bookMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<BookResponse> getBooksByLanguage(String language, Pageable pageable) {
-        return bookRepository.findByLanguage(language, pageable)
-                .map(bookMapper::toResponse);
+        return bookRepository.findByLanguage(language, pageable).map(bookMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<BookResponse> getBooksByPublisher(String publisher, Pageable pageable) {
-        return bookRepository.findByPublisher(publisher, pageable)
-                .map(bookMapper::toResponse);
+        return bookRepository.findByPublisher(publisher, pageable).map(bookMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
@@ -113,11 +108,7 @@ public class BookServiceImpl implements BookService {
     public Page<BookResponse> searchBooks(String query, Pageable pageable) {
         return bookRepository
                 .findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrPublisherContainingIgnoreCase(
-                        query,
-                        query,
-                        query,
-                        pageable
-                )
+                        query, query, query, pageable)
                 .map(bookMapper::toResponse);
     }
 }

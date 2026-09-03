@@ -1,6 +1,7 @@
 package org.example.hbookstore.review.api;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.example.hbookstore.review.api.dto.CreateReviewRequest;
 import org.example.hbookstore.review.api.dto.ReviewResponse;
 import org.example.hbookstore.review.api.dto.UpdateReviewRequest;
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(
         name = "Review Management",
-        description = "APIs for managing book reviews in the bookstore system."
-)
+        description = "APIs for managing book reviews in the bookstore system.")
 @RestController
 @RequestMapping("/api/v1/reviews")
 public class ReviewController {
@@ -40,9 +40,7 @@ public class ReviewController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ReviewResponse> updateReview(
-            @PathVariable Long id,
-            @RequestBody UpdateReviewRequest request
-    ) {
+            @PathVariable Long id, @RequestBody UpdateReviewRequest request) {
         ReviewResponse response = reviewService.updateReview(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -55,26 +53,21 @@ public class ReviewController {
 
     @GetMapping
     public ResponseEntity<Page<ReviewResponse>> getReviews(
-             @PageableDefault(size = 20) Pageable pageable
-    ) {
+            @PageableDefault(size = 20) Pageable pageable) {
         Page<ReviewResponse> reviews = reviewService.getAllReviews(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(reviews);
     }
 
     @GetMapping("/book/{bookId}")
     public ResponseEntity<Page<ReviewResponse>> getReviewsByBookId(
-            @PathVariable Long bookId,
-            @PageableDefault(size = 20) Pageable pageable
-    ) {
+            @PathVariable Long bookId, @PageableDefault(size = 20) Pageable pageable) {
         Page<ReviewResponse> reviews = reviewService.getReviewsByBookId(bookId, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(reviews);
     }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<Page<ReviewResponse>> getReviewsByUserId(
-            @PathVariable Long userId,
-            @PageableDefault(size = 20) Pageable pageable
-    ) {
+            @PathVariable Long userId, @PageableDefault(size = 20) Pageable pageable) {
         Page<ReviewResponse> reviews = reviewService.getReviewsByCustomerId(userId, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(reviews);
     }

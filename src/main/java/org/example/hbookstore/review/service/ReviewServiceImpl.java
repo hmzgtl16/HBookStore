@@ -27,8 +27,7 @@ public class ReviewServiceImpl implements ReviewService {
             ReviewRepository reviewRepository,
             BookRepository bookRepository,
             UserRepository userRepository,
-            ReviewMapper reviewMapper
-    ) {
+            ReviewMapper reviewMapper) {
         this.reviewRepository = reviewRepository;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
@@ -46,7 +45,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional(readOnly = true)
     @Override
     public ReviewResponse getReview(Long id) {
-        return reviewRepository.findById(id)
+        return reviewRepository
+                .findById(id)
                 .map(reviewMapper::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " + id));
     }
@@ -54,9 +54,14 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     @Override
     public ReviewResponse updateReview(Long id, UpdateReviewRequest request) {
-        Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Review not found with id: " + id));
-        
+        Review review =
+                reviewRepository
+                        .findById(id)
+                        .orElseThrow(
+                                () ->
+                                        new EntityNotFoundException(
+                                                "Review not found with id: " + id));
+
         Review updatedReview = reviewMapper.updateEntity(review, request);
         return reviewMapper.toResponse(reviewRepository.save(updatedReview));
     }
@@ -73,27 +78,27 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional(readOnly = true)
     @Override
     public Page<ReviewResponse> getAllReviews(Pageable pageable) {
-        return reviewRepository.findAll(pageable)
-                .map(reviewMapper::toResponse);
+        return reviewRepository.findAll(pageable).map(reviewMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<ReviewResponse> getReviewsByBookId(Long bookId, Pageable pageable) {
-        return reviewRepository.findByBookId(bookId, pageable)
-                .map(reviewMapper::toResponse);
+        return reviewRepository.findByBookId(bookId, pageable).map(reviewMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<ReviewResponse> getReviewsByCustomerId(Long customerId, Pageable pageable) {
-        return reviewRepository.findByCustomerId(customerId, pageable)
+        return reviewRepository
+                .findByCustomerId(customerId, pageable)
                 .map(reviewMapper::toResponse);
     }
 
     private void validateReview(CreateReviewRequest request) {
-        if (reviewRepository.existsByCustomerIdAndBookId(request.customerId(),  request.bookId())) {
-            throw new InvalidRequestException("Review already exists: " + request.customerId() + ", " + request.bookId());
+        if (reviewRepository.existsByCustomerIdAndBookId(request.customerId(), request.bookId())) {
+            throw new InvalidRequestException(
+                    "Review already exists: " + request.customerId() + ", " + request.bookId());
         }
         if (!bookRepository.existsById(request.bookId())) {
             throw new EntityNotFoundException("Book not found with id: " + request.bookId());

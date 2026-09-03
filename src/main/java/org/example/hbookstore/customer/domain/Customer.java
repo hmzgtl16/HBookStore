@@ -1,5 +1,6 @@
 package org.example.hbookstore.customer.domain;
 
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,15 +9,12 @@ import org.example.hbookstore.customer.domain.enums.CustomerStatus;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.Instant;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "customers")
 public class Customer {
-    @Id
-    private Long id;
+    @Id private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -39,8 +37,7 @@ public class Customer {
             CustomerStatus status,
             CustomerCategory category,
             Instant createdAt,
-            Instant updatedAt
-    ) {
+            Instant updatedAt) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

@@ -8,7 +8,4 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJdbcRepositories(basePackages = "org.example.hbookstore")
 @EnableTransactionManagement
-public class DatabaseConfig extends AbstractJdbcConfiguration {
-
-
-}
+public class DatabaseConfig extends AbstractJdbcConfiguration {}

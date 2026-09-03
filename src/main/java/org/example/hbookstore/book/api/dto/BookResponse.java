@@ -1,9 +1,9 @@
 package org.example.hbookstore.book.api.dto;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import org.example.hbookstore.book.domain.enums.BookCategory;
 import org.example.hbookstore.book.domain.enums.BookFormat;
-
-import java.time.LocalDate;
 
 public record BookResponse(
         Long id,
@@ -16,8 +16,6 @@ public record BookResponse(
         BookFormat format,
         BookCategory category,
         String coverImageUrl,
-        java.time.Instant createdAt,
-        java.time.Instant updatedAt,
-        Long authorId
-) {
-}
+        Instant createdAt,
+        Instant updatedAt,
+        Long authorId) {}

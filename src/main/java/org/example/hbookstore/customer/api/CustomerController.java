@@ -1,6 +1,7 @@
 package org.example.hbookstore.customer.api;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.example.hbookstore.customer.api.dto.CreateCustomerRequest;
 import org.example.hbookstore.customer.api.dto.CustomerResponse;
 import org.example.hbookstore.customer.api.dto.UpdateCustomerRequest;
@@ -16,8 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(
         name = "Customer Management",
-        description = "APIs for managing customers in the bookstore system."
-)
+        description = "APIs for managing customers in the bookstore system.")
 @RestController
 @RequestMapping("/api/v1/customers")
 public class CustomerController {
@@ -30,9 +30,7 @@ public class CustomerController {
 
     @PostMapping("/{userId}")
     public ResponseEntity<CustomerResponse> createCustomer(
-            @PathVariable Long userId,
-            @RequestBody CreateCustomerRequest request
-    ) {
+            @PathVariable Long userId, @RequestBody CreateCustomerRequest request) {
         CustomerResponse response = customerService.createCustomer(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -45,9 +43,7 @@ public class CustomerController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerResponse> updateCustomer(
-            @PathVariable Long id,
-            @RequestBody UpdateCustomerRequest request
-    ) {
+            @PathVariable Long id, @RequestBody UpdateCustomerRequest request) {
         CustomerResponse response = customerService.updateCustomer(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -60,17 +56,14 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<Page<CustomerResponse>> getAllCustomers(
-            @PageableDefault(size = 20) Pageable pageable
-    ) {
+            @PageableDefault(size = 20) Pageable pageable) {
         Page<CustomerResponse> response = customerService.getAllCustomers(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/status/{status}")
     public ResponseEntity<Page<CustomerResponse>> getCustomersByStatus(
-            @PathVariable CustomerStatus status,
-            @PageableDefault(size = 20) Pageable pageable
-    ) {
+            @PathVariable CustomerStatus status, @PageableDefault(size = 20) Pageable pageable) {
         Page<CustomerResponse> response = customerService.getCustomersByStatus(status, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -78,17 +71,15 @@ public class CustomerController {
     @GetMapping("/category/{category}")
     public ResponseEntity<Page<CustomerResponse>> getCustomersByCategory(
             @PathVariable CustomerCategory category,
-            @PageableDefault(size = 20) Pageable pageable
-    ) {
-        Page<CustomerResponse> response = customerService.getCustomersByCategory(category, pageable);
+            @PageableDefault(size = 20) Pageable pageable) {
+        Page<CustomerResponse> response =
+                customerService.getCustomersByCategory(category, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/search")
     public ResponseEntity<Page<CustomerResponse>> searchCustomers(
-            @RequestParam String query,
-            @PageableDefault(size = 20) Pageable pageable
-    ) {
+            @RequestParam String query, @PageableDefault(size = 20) Pageable pageable) {
         Page<CustomerResponse> response = customerService.searchCustomers(query, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
