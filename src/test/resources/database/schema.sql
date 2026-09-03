@@ -60,15 +60,3 @@ CREATE TABLE IF NOT EXISTS reviews
     created_at  TIMESTAMP,
     updated_at  TIMESTAMP
 );
-
-DROP SEQUENCE IF EXISTS users_id_seq;
-DROP SEQUENCE IF EXISTS customers_id_seq;
-DROP SEQUENCE IF EXISTS authors_id_seq;
-DROP SEQUENCE IF EXISTS books_id_seq;
-DROP SEQUENCE IF EXISTS reviews_id_seq;
-
-CREATE SEQUENCE users_id_seq START 1;
-CREATE SEQUENCE customers_id_seq START 1;
-CREATE SEQUENCE authors_id_seq START 1;
-CREATE SEQUENCE books_id_seq START 1;
-CREATE SEQUENCE reviews_id_seq START 1;
