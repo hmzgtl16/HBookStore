@@ -1,14 +1,14 @@
 -- USERS
-INSERT INTO users (id, email, username, password, role, status, created_at, updated_at) VALUES
-  (1, 'admin@example.com', 'admin', 'adminpass', 'ADMIN', 'ACTIVE', NOW(), NOW()),
-  (2, 'jane.doe@example.com', 'janedoe', 'password123', 'USER', 'ACTIVE', NOW(), NOW()),
-  (3, 'john.smith@example.com', 'johnsmith', 'password456', 'USER', 'ACTIVE', NOW(), NOW())
+INSERT INTO users (id, username, password, role, status, created_at, updated_at) VALUES
+  (1, 'admin', 'adminpass', 'ADMIN', 'ACTIVE', NOW(), NOW()),
+  (2, 'janedoe', 'password123', 'USER', 'ACTIVE', NOW(), NOW()),
+  (3, 'johnsmith', 'password456', 'USER', 'ACTIVE', NOW(), NOW())
 ON CONFLICT (id) DO NOTHING;
 
 -- CUSTOMERS
-INSERT INTO customers (id, first_name, last_name, phone_number, status, category, created_at, updated_at, user_id) VALUES
-  (1, 'Jane', 'Doe', '123-456-7890', 'ACTIVE', 'REGULAR', NOW(), NOW(), 2),
-  (2, 'John', 'Smith', '987-654-3210', 'ACTIVE', 'ENTERPRISE', NOW(), NOW(), 3)
+INSERT INTO customers (id, first_name, last_name, email, phone_number, status, category, created_at, updated_at, user_id) VALUES
+  (1, 'Jane', 'Doe', 'jane.doe@example.com', '123-456-7890', 'ACTIVE', 'REGULAR', NOW(), NOW(), 2),
+  (2, 'John', 'Smith', 'john.smith@example.com', '987-654-3210', 'ACTIVE', 'ENTERPRISE', NOW(), NOW(), 3)
 ON CONFLICT (id) DO NOTHING;
 
 -- AUTHORS
@@ -31,3 +31,9 @@ INSERT INTO reviews (id, customer_id, book_id, rating, comment, created_at, upda
   (2, 1, 2, 4, 'Magical and imaginative.', NOW(), NOW()),
   (3, 2, 3, 5, 'A powerful and emotional read.', NOW(), NOW())
 ON CONFLICT (id) DO NOTHING;
+
+SELECT setval(pg_get_serial_sequence('users', 'id'), COALESCE((SELECT MAX(id) FROM users), 1));
+SELECT setval(pg_get_serial_sequence('customers', 'id'), COALESCE((SELECT MAX(id) FROM customers), 1));
+SELECT setval(pg_get_serial_sequence('authors', 'id'), COALESCE((SELECT MAX(id) FROM authors), 1));
+SELECT setval(pg_get_serial_sequence('books', 'id'), COALESCE((SELECT MAX(id) FROM books), 1));
+SELECT setval(pg_get_serial_sequence('reviews', 'id'), COALESCE((SELECT MAX(id) FROM reviews), 1));
