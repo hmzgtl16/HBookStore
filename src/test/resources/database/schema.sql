@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS users
 (
     id         BIGSERIAL PRIMARY KEY,
-    email      VARCHAR(255) UNIQUE NOT NULL,
     username   VARCHAR(100) UNIQUE NOT NULL,
     password   VARCHAR(255)        NOT NULL,
     role       VARCHAR(50)         NOT NULL,
@@ -15,6 +14,7 @@ CREATE TABLE IF NOT EXISTS customers
     id           BIGSERIAL PRIMARY KEY,
     first_name   VARCHAR(100) NOT NULL,
     last_name    VARCHAR(100) NOT NULL,
+    email        VARCHAR(255) UNIQUE NOT NULL,
     phone_number VARCHAR(20),
     status       VARCHAR(50)  NOT NULL,
     category     VARCHAR(50)  NOT NULL,
@@ -60,15 +60,3 @@ CREATE TABLE IF NOT EXISTS reviews
     created_at  TIMESTAMP,
     updated_at  TIMESTAMP
 );
-
-DROP SEQUENCE IF EXISTS users_id_seq;
-DROP SEQUENCE IF EXISTS customers_id_seq;
-DROP SEQUENCE IF EXISTS authors_id_seq;
-DROP SEQUENCE IF EXISTS books_id_seq;
-DROP SEQUENCE IF EXISTS reviews_id_seq;
-
-CREATE SEQUENCE users_id_seq START 1;
-CREATE SEQUENCE customers_id_seq START 1;
-CREATE SEQUENCE authors_id_seq START 1;
-CREATE SEQUENCE books_id_seq START 1;
-CREATE SEQUENCE reviews_id_seq START 1;
